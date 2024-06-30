@@ -5,8 +5,6 @@ import Search from './Component/Search'
 import Restaurant from './Component/Restaurant'
 
 function App() {
-
-
   return (
     <>
     <div className='container flex flex-col items-center p-4 mx-auto space-y-6'>
