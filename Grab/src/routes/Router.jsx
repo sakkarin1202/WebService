@@ -1,16 +1,17 @@
 import { createBrowserRouter } from "react-router-dom";
-import Home from "../page/Home.jsx";
-import Add from "../page/Add.jsx";
+import Add from "../page/Add";
+import Home from "../page/Home";
+import Edit from "../page/Edit";
 
-const router = createBrowserRouter([
+const Router = createBrowserRouter([
   {
     path: "/",
     element: <Home />,
   },
   {
-    path: "/add",
+    path: "/Add/:id",
     element: <Add />,
   },
-]);
 
-export default router;
+  {},
+]);

@@ -1,6 +1,6 @@
 import React from "react";
 
-const Card = ({ img, title, type }) => {
+const Card = ({ img, title, type,id }) => {
   return (
     <div className="card card-compact w-96 bg-base-100 shadow-xl">
       <figure>
@@ -10,7 +10,7 @@ const Card = ({ img, title, type }) => {
         <h2 className="card-title">{title}</h2>
         <p>{type}</p>
         <div className="card-actions justify-end">
-          <button className="btn btn-primary">Order Now</button>
+          <a href="{}" className="btn btn-primary">Edit Now</a>
         </div>
       </div>
     </div>

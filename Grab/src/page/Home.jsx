@@ -3,9 +3,8 @@ import "../App.css";
 import Header from "../Component/Header";
 import Search from "../Component/Search";
 import Restaurant from "../Component/Restaurant";
-import Navbar from "./Navbar";
 
-function App() {
+function Home() {
   const [restaurants, setRestaurants] = useState([]);
   const [filteredRestaurants, setFilteredRestaurants] = useState([]);
 
@@ -25,7 +24,7 @@ function App() {
     <div className="container flex flex-col items-center p-4 mx-auto space-y-6">
     
       <Header />
-      <Navbar />
+  
       <Search
         restaurants={restaurants}
         setFilteredRestaurants={setFilteredRestaurants}
@@ -34,5 +33,4 @@ function App() {
     </div>
   );
 }
-
-export default App;
+export default Home;
