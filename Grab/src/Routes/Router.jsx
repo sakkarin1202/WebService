@@ -1,7 +1,7 @@
 import { createBrowserRouter } from "react-router-dom";
-import Home from "../page/Home.jsx"
-import Add from "../page/Add.jsx"
-import Edit from "../page/Edit.jsx"
+import Home from "../page/Home.jsx";
+import Add from "../page/Add.jsx";
+import Edit from "../page/Edit.jsx";
 
 const router = createBrowserRouter([
   {

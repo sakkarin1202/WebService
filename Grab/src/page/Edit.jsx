@@ -1,26 +1,36 @@
-import React from "react";
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-// import Swal from 'sweetalert2';
+import Swal from 'sweetalert2';
 
 const Edit = () => {
   const { id } = useParams();
   const navigate = useNavigate();
+  
+  console.log('ID from URL:', id);
+  
   const [resto, setRestos] = useState({
     title: "",
     type: "",
-    img: "https://cms.dmpcdn.com/food/2024/01/19/60acdbd0-b6ae-11ee-be74-a3cdac836376_webp_original.webp",
+    img: "https://cms.dmpcdn.com/food/2024/01/19/60acdbd0-b6ae-11ee-be74-a3cdac836376_webp_original.webp"
   });
 
   useEffect(() => {
-    fetch("http://localhost:3000/restaurants/" + id)
-      .then((res) => res.json())
-      .then((response) => {
-        setRestos(response);
-      })
-      .catch((err) => {
-        console.log(err.message);
-      });
+    if (id) {
+      fetch("http://localhost:3000/restaurants/" + id)
+        .then((res) => {
+          if (!res.ok) {
+            throw new Error("Network response was not ok");
+          }
+          return res.json();
+        })
+        .then((response) => {
+          console.log('Fetch response:', response);
+          setRestos(response);
+        })
+        .catch((err) => {
+          console.error('Fetch error:', err.message);
+        });
+    }
   }, [id]);
 
   const handleChange = (e) => {

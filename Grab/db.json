@@ -3,13 +3,13 @@
     {
       "id": "1",
       "img": "https://food-cms.grab.com/compressed_webp/merchants/3-CZDJLKJEDAVAE2/hero/bca9070c0c964cb889dbe543eeef61d2_1587008101690373547.webp",
-      "title": "พระศุลีเกสทเฮ้าส์ - ถนนดินสอ",
-      "type": "อาหารตามสั่ง, สเต็ก, น้ำผลไม้"
+      "title": "หฟหกฟห",
+      "type": "ตามสั่ง"
     },
     {
       "id": "2",
       "img": "https://food-cms.grab.com/compressed_webp/merchants/3-C6BGBE5ZDFKGCE/hero/5ee85b45b5f247b192b1f665a44b1c77_1702977756190373814.webp",
-      "title": "ปากหม้อ พุพาน - ตะนาว",
+      "title": "ปากหม้อ พุพาน - ตะนาว Edit complete",
       "type": "ทานเล่น/ขนมขบเคี้ยว"
     },
     {
@@ -83,6 +83,12 @@
       "title": "อาหาร",
       "type": "ตามสั่ง",
       "img": "https://food-cms.grab.com/compressed_webp/merchants/3-C6JJJFB1E4JJCX/hero/424f9474-b676-417d-9fab-3457d9d0f4bd__store_cover__2024__03__22__02__24__37.webp"
+    },
+    {
+      "id": "6787",
+      "title": "KFC",
+      "type": "ไก่",
+      "img": "https://food-cms.grab.com/compressed_webp/merchants/3-CZMTKBDTT2XJAJ/hero/65641d0fcdc14d4a8961f56f0ead6fa5_1598847900883974941.webp"
     }
   ]
 }

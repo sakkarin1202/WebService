@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+// import React, { useState, useEffect } from "react";
 import Card from "./Card";
 
 const Restaurant = ({ restaurants }) => {
@@ -7,6 +7,7 @@ const Restaurant = ({ restaurants }) => {
       {restaurants.map((resto) => (
         <Card
           key={resto.id}
+          id={resto.id}
           img={resto.img}
           title={resto.title}
           type={resto.type}
