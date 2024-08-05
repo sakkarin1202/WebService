@@ -5,7 +5,7 @@ import LoginButton from "../Component/LoginButton";
 import RegisterButton from "../Component/RegisterButton";
 
 const Navbar = () => {
-  const user = { name: "test" };
+  const user = null;
   return (
     <div className="navbar bg-base-100 rounded-lg shadow-[-10px_-10px_30px_4px_rgba(0,0,0,0.1),_10px_10px_30px_4px_rgba(45,78,255,0.15)]">
       <div className="navbar-start">
@@ -57,7 +57,13 @@ const Navbar = () => {
           <UserProfile />
         ) : (
           <div className="space-x-2">
+            <a href="/login" className="btn btn-accent">
+              Login
+            </a>
             <LoginButton />
+            <a href="/register" className="btn btn-primary">
+              Register
+            </a>
             <RegisterButton />
           </div>
         )}

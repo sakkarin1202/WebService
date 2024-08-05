@@ -17,30 +17,33 @@ const Register = () => {
     setUser({ ...user, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = async () => {
-    try {
-      const register = await AuthService.register(
-        user.username,
-        user.password,
-        user.email
-      );
-      if (register.status === 200) {
-        Swal.fire({
-          title: "User Registered",
-          text: register.data.message,
-          icon: "success",
-        }).then(() => {
-          navigate("/login"); // Redirect to login or another route after successful registration
-        });
-      }
-    } catch (error) {
-      Swal.fire({
-        title: "Registration Failed",
-        text: error.response.data.message, // Display error message from the response
-        icon: "error",
-      });
-    }
-  };
+   const handleSubmit = async () => {
+     try {
+       const response = await AuthService.register(
+         user.username,
+         user.email,
+         user.password
+       );
+       if (response.status === 200) {
+         Swal.fire({
+           title: "User Registered",
+           text: response.data.message,
+           icon: "success",
+         });
+         setUser({
+           username: "",
+           password: "",
+           email: "",
+         });
+       }
+     } catch (error) {
+       Swal.fire({
+         title: "Registration Failed",
+         text: error.response ? error.response.data.message : "Unknown error",
+         icon: "error",
+       });
+     }
+   };
 
   const handleCancel = () => {
     setUser({
