@@ -17,33 +17,49 @@ const Register = () => {
     setUser({ ...user, [e.target.name]: e.target.value });
   };
 
-   const handleSubmit = async () => {
-     try {
-       const response = await AuthService.register(
-         user.username,
-         user.email,
-         user.password
-       );
-       if (response.status === 200) {
-         Swal.fire({
-           title: "User Registered",
-           text: response.data.message,
-           icon: "success",
-         });
-         setUser({
-           username: "",
-           password: "",
-           email: "",
-         });
-       }
-     } catch (error) {
-       Swal.fire({
-         title: "Registration Failed",
-         text: error.response ? error.response.data.message : "Unknown error",
-         icon: "error",
-       });
-     }
-   };
+  const handleSubmit = async () => {
+    try {
+      // Check if all fields are filled
+      if (!user.username || !user.password || !user.email) {
+        Swal.fire({
+          title: "Validation Error",
+          text: "Please fill in all fields.",
+          icon: "warning",
+        });
+        return;
+      }
+
+      // Call the register service
+      const register = await AuthService.register(
+        user.username,
+        user.email,
+        user.password // Fixed typo here
+      );
+
+      if (register.status === 200) {
+        Swal.fire({
+          title: "User Registered",
+          text: register.data.message,
+          icon: "success",
+        });
+        setUser({
+          username: "",
+          password: "",
+          email: "",
+        });
+        navigate("/login"); // Redirect to login or another route after successful registration
+      }
+    } catch (error) {
+      Swal.fire({
+        title: "Registration Failed",
+        text:
+          error.response && error.response.data.message
+            ? error.response.data.message
+            : "Unknown error", // Safeguard in case error.response.data.message is undefined
+        icon: "error",
+      });
+    }
+  };
 
   const handleCancel = () => {
     setUser({

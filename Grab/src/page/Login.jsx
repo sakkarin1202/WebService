@@ -1,19 +1,53 @@
 import React, { useState } from "react";
+import AuthService from "../services/auth.service";
+import { useAuthContext } from "../context/AuthContext";
+import { useNavigate } from "react-router-dom";
+import Swal from "sweetalert2";
 
 const Login = () => {
   // State to hold login values
-  const [login, setLogin] = useState({
+  const [user, setUser] = useState({
     username: "",
     password: "",
   });
 
+  // Hooks
+  const navigate = useNavigate();
+  const { login } = useAuthContext();
+
   // Handle input changes
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setLogin((prevState) => ({
-      ...prevState,
+    setUser((prev) => ({
+      ...prev,
       [name]: value,
     }));
+  };
+
+  // Handle form submission
+  const handleSubmit = async () => {
+    try {
+      const currentUser = await AuthService.login(user.username, user.password);
+      if (currentUser.status === 200){
+        login(currentUser);
+        Swal.fire({
+          title:"User Login",
+          text:"Login Sucessfuly",
+          icon:"success",
+        })
+        setUser({
+          username: "",
+          password: "",
+        });
+        navigate("/");
+      }
+    } catch (error) {
+      Swal.fire({
+        title: "User Registration",
+        text: error.response.data.message || error.message,
+        icon: "error",
+      });
+    }
   };
 
   return (
@@ -33,7 +67,7 @@ const Login = () => {
           name="username"
           className="grow"
           placeholder="Username"
-          value={login.username}
+          value={user.username}
           onChange={handleChange}
         />
       </label>
@@ -57,15 +91,22 @@ const Login = () => {
           name="password"
           className="grow"
           placeholder="Password"
-          value={login.password}
+          value={user.password}
           onChange={handleChange}
         />
       </label>
 
       {/* Buttons */}
       <div className="flex gap-2">
-        <button className="btn btn-accent">Login</button>
-        <button className="btn btn-error">Cancel</button>
+        <button className="btn btn-accent" onClick={handleSubmit}>
+          Login
+        </button>
+        <button
+          className="btn btn-error"
+          onClick={() => setUser({ username: "", password: "" })}
+        >
+          Cancel
+        </button>
       </div>
     </div>
   );

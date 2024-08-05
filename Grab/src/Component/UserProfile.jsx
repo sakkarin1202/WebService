@@ -1,6 +1,16 @@
 import React from "react";
+import { useAuthContext } from "../context/AuthContext"; // Adjust the path as needed
+//import { useNavigate } from "react-router-dom"; //
 
 const UserProfile = () => {
+  const { logout } = useAuthContext();
+  ////const navigate = useNavigate;
+
+  const handleLogout = () => {
+    logout();
+    //navigate("/"); 
+  };
+
   return (
     <div className="dropdown dropdown-end">
       {/* Avatar button */}
@@ -23,10 +33,7 @@ const UserProfile = () => {
         className="menu menu-sm dropdown-content bg-base-100 rounded-box z-[1] mt-3 w-52 p-2 shadow-lg"
       >
         <li>
-          <a>Login</a>
-        </li>
-        <li>
-          <a>Register</a>
+          <a onClick={handleLogout}>Logout</a>
         </li>
       </ul>
     </div>

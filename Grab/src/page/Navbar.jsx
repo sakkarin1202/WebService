@@ -3,9 +3,10 @@ import { Link, useNavigate } from "react-router-dom";
 import UserProfile from "../Component/UserProfile";
 import LoginButton from "../Component/LoginButton";
 import RegisterButton from "../Component/RegisterButton";
+import { useAuthContext } from "../context/AuthContext";
 
 const Navbar = () => {
-  const user = null;
+  const {user} = useAuthContext();
   return (
     <div className="navbar bg-base-100 rounded-lg shadow-[-10px_-10px_30px_4px_rgba(0,0,0,0.1),_10px_10px_30px_4px_rgba(45,78,255,0.15)]">
       <div className="navbar-start">
