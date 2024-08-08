@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import AuthService from "../services/auth.service";
 import { useAuthContext } from "../context/AuthContext";
 import { useNavigate } from "react-router-dom";
@@ -13,8 +13,12 @@ const Login = () => {
 
   // Hooks
   const navigate = useNavigate();
-  const { login } = useAuthContext();
-
+  const { login, user: loggedInUser } = useAuthContext();
+  useEffect(() => {
+    if (loggedInUser) {
+      navigate("/");
+    }
+  }, [loggedInUser]);
   // Handle input changes
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -28,13 +32,13 @@ const Login = () => {
   const handleSubmit = async () => {
     try {
       const currentUser = await AuthService.login(user.username, user.password);
-      if (currentUser.status === 200){
-        login(currentUser);
+      if (currentUser.status === 200) {
+        login(currentUser.data);
         Swal.fire({
-          title:"User Login",
-          text:"Login Sucessfuly",
-          icon:"success",
-        })
+          title: "User Login",
+          text: "Login Sucessfuly",
+          icon: "success",
+        });
         setUser({
           username: "",
           password: "",

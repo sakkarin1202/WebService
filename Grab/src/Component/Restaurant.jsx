@@ -8,8 +8,8 @@ const Restaurant = ({ restaurants }) => {
         <Card
           key={resto.id}
           id={resto.id}
-          img={resto.img}
-          title={resto.title}
+          imageUrl={resto.imageUrl}
+          name={resto.name}
           type={resto.type}
         />
       ))}

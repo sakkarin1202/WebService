@@ -1,6 +1,7 @@
 import axios from "axios";
 
-const baseURL = "http://localhost:5000"; // ใช้ baseURL แทน baseUrL
+const baseURL = import.meta.env.VITE_BASE_URL;
+console.log(baseURL);
 const instance = axios.create({
   baseURL: baseURL, // เปลี่ยน baseUrL เป็น baseURL
   headers: {

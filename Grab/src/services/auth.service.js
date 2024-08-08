@@ -2,7 +2,7 @@ import axios from "axios";
 import api from "./api";
 import TokenService from "./token.service"; // If you have token handling logic here
 
-const API_URL = "/api/v1/auth";
+const API_URL = import.meta.env.VITE_AUTH_API;
 
 const register = async (username, email, password) => {
   return await api.post(API_URL + "/signup", { username, email, password });

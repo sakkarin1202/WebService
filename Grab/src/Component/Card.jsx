@@ -1,11 +1,11 @@
 import React from "react";
 import Swal from "sweetalert2";
 
-const Card = ({ id, img, title, type }) => {
+const Card = ({ id, imageUrl, name, type }) => {
   const handleDelete = async (id) => {
     try {
       const result = await Swal.fire({
-        title: "คุณแน่ใจที่จะลบหรือไม่?",
+        name: "คุณแน่ใจที่จะลบหรือไม่?",
         text: "คุณจะไม่สามารถเปลี่ยนกลับสิ่งนี้ได้!",
         icon: "warning",
         showCancelButton: true,
@@ -41,10 +41,10 @@ const Card = ({ id, img, title, type }) => {
   return (
     <div className="card card-compact w-72 bg-base-100 shadow-xlx">
       <figure>
-        <img src={img} alt={title} />
+        <img src={imageUrl} alt={name} />
       </figure>
       <div className="card-body hover:bg-sky-200">
-        <h2 className="card-title">{title}</h2>
+        <h2 className="card-title">{name}</h2>
         <p>{type}</p>
         <div className="card-actions justify-end">
           <a href={`/edit/${id}`} className="btn btn-primary">
