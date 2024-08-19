@@ -8,7 +8,7 @@ const setUser = (user) => {
 };
 
 const getUser = () => {
-  return JSON.parselocalStorage.getItem("user");
+  return JSON.parse(localStorage.getItem("user"))
 };
 
 const removeUser = () => {

@@ -1,10 +1,12 @@
 import React, { useState } from "react";
+import RestaurantService from "../services/restaurant.service";
+import Swal from "sweetalert2";
 
 const Add = () => {
   const [restaurant, setRestaurant] = useState({
-    title: "",
+    name: "",
     type: "",
-    img: "",
+    imageUrl: "",
   });
 
   const handleChange = (e) => {
@@ -12,26 +14,28 @@ const Add = () => {
     setRestaurant({ ...restaurant, [name]: value });
   };
 
-  const handleSubmit = async () => {
-  
+  const handleSubmit = async (e) => {
+    e.preventDefault();
     try {
-      const response = await fetch("http://localhost:3000/restaurants/", {
-        method: "POST",
-        body: JSON.stringify(restaurant), 
-      });
-
-      if (response.ok) {
-        alert("Restaurant added successfully");
-        setRestaurant({
-          title: "",
-          type: "",
-          img: "",
+      const response = await RestaurantService.insertRestaurant(restaurant);
+      if (response.status === 200) {
+        Swal.fire({
+          title: "Add Restaurant",
+          text: "Restaurant Added Successfully",
+          icon: "success",
         });
-      } 
-      
+        setRestaurant({
+          name: "",
+          type: "",
+          imageUrl: "",
+        });
+      }
     } catch (error) {
-      console.log("Error");
-     
+      Swal.fire({
+        title: "Add Restaurant",
+        text: error.response.data.message || error.message,
+        icon: "error",
+      });
     }
   };
 
@@ -44,38 +48,44 @@ const Add = () => {
             Restaurant Name
             <input
               type="text"
-              name="title"
+              name="name" // Ensure this matches state and API
               className="grow"
               placeholder="Restaurant Name"
-              value={restaurant.title}
+              value={restaurant.name}
               onChange={handleChange}
+              required
             />
           </label>
           <label className="input input-bordered flex items-center gap-2">
             Restaurant Type
             <input
               type="text"
-              name="type"
+              name="type" // Ensure this matches state and API
               className="grow"
               placeholder="Restaurant Type"
               value={restaurant.type}
               onChange={handleChange}
+              required
             />
           </label>
           <label className="input input-bordered flex items-center gap-2">
-            Restaurant Image Url
+            Restaurant Image URL
             <input
               type="text"
-              name="img"
+              name="imageUrl" // Ensure this matches state and API
               className="grow"
-              placeholder="Restaurant Image Url"
-              value={restaurant.img}
+              placeholder="Restaurant Image URL"
+              value={restaurant.imageUrl}
               onChange={handleChange}
             />
           </label>
-          {restaurant.img && (
+          {restaurant.imageUrl && (
             <div className="flex items-center gap-2">
-              <img src={restaurant.img} className="h-32" alt="Restaurant" />
+              <img
+                src={restaurant.imageUrl}
+                className="h-32"
+                alt="Restaurant"
+              />
             </div>
           )}
           <button type="submit" className="btn btn-success">

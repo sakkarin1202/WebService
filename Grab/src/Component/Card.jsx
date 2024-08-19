@@ -1,63 +1,68 @@
 import React from "react";
 import Swal from "sweetalert2";
+import { useAuthContext } from "../context/AuthContext";
+import RestuarantService from "../services/restaurant.service";
 
 const Card = ({ id, imageUrl, name, type }) => {
+  const { user } = useAuthContext();
+
   const handleDelete = async (id) => {
-    try {
-      const result = await Swal.fire({
-        name: "คุณแน่ใจที่จะลบหรือไม่?",
-        text: "คุณจะไม่สามารถเปลี่ยนกลับสิ่งนี้ได้!",
-        icon: "warning",
-        showCancelButton: true,
-        confirmButtonColor: "#3085d6",
-        cancelButtonColor: "#d33",
-        confirmButtonText: "ยืนยันลบ!",
-        cancelButtonText: "ยกเลิก",
-      });
-
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, delete it!",
+    }).then(async (result) => {
       if (result.isConfirmed) {
-        const response = await fetch(
-          "http://localhost:3000/restaurants/" + id,
-          {
-            method: "DELETE",
-          }
-        );
-
-        if (response.ok) {
-          Swal.fire("ลบเรียบร้อย!", "ร้านอาหารถูกลบแล้ว", "success").then(
-            () => {
-              window.location.reload();
-            }
+        try {
+          await RestuarantService.deleteRestaurant(id); // Use RestaurantService instead of fetch
+          Swal.fire(
+            "Deleted!",
+            `Restaurant id=${id} has been deleted.`,
+            "success"
+          ).then(() => {
+            window.location.reload(); // Refresh the page
+          });
+        } catch (err) {
+          Swal.fire(
+            "Error!",
+            `Error deleting restaurant: ${err.message}`,
+            "error"
           );
-        } else {
-          throw new Error("เกิดข้อผิดพลาดในการลบ!");
         }
       }
-    } catch (error) {
-      Swal.fire("Error!", "Failed to delete the restaurant.", "error");
-    }
+    });
   };
 
   return (
-    <div className="card card-compact w-72 bg-base-100 shadow-xlx">
+    <div className="card w-96 bg-base-100 shadow-xl h-96 mx-4 mb-4">
       <figure>
         <img src={imageUrl} alt={name} />
       </figure>
-      <div className="card-body hover:bg-sky-200">
+      <div className="card-body">
         <h2 className="card-title">{name}</h2>
         <p>{type}</p>
-        <div className="card-actions justify-end">
-          <a href={`/edit/${id}`} className="btn btn-primary">
-            Edit
-          </a>
-          <button
-            className="btn btn-error"
-            type="submit"
-            onClick={() => handleDelete(id)}
-          >
-            Delete
-          </button>
-        </div>
+
+        {user &&
+          (user.roles.includes("ROLES_MODERATOR") ||
+            user.roles.includes("ROLES_ADMIN")) && (
+            <div className="card-actions justify-end">
+              {user.roles.includes("ROLES_ADMIN") && (
+                <button
+                  className="btn btn-error"
+                  onClick={() => handleDelete(id)}
+                >
+                  Delete
+                </button>
+              )}
+              <a href={`/edit/${id}`} className="btn btn-warning">
+                Edit
+              </a>
+            </div>
+          )}
       </div>
     </div>
   );

@@ -1,6 +1,6 @@
 import axios from "axios";
 import api from "./api";
-import TokenService from "./token.service"; // If you have token handling logic here
+import TokenService from "./token.service";
 
 const API_URL = import.meta.env.VITE_AUTH_API;
 

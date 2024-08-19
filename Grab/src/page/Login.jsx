@@ -22,8 +22,8 @@ const Login = () => {
   // Handle input changes
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setUser((prev) => ({
-      ...prev,
+    setUser((user) => ({
+      ...user,
       [name]: value,
     }));
   };
@@ -48,7 +48,7 @@ const Login = () => {
     } catch (error) {
       Swal.fire({
         title: "User Registration",
-        text: error.response.data.message || error.message,
+        text: error?.response?.data?.message || error.message,
         icon: "error",
       });
     }

@@ -22,7 +22,7 @@ function Home() {
       } catch (error) {
         Swal.fire({
           title: "User Registration",
-          text: error.response.data.message || error.message,
+          text: error?.response?.data?.message || error.message,
           icon: "error",
         });
       }

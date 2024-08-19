@@ -1,74 +1,70 @@
 import React, { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import Swal from 'sweetalert2';
+import Swal from "sweetalert2";
+import RestaurantService from "../services/restaurant.service"; // Make sure the import matches your file name
 
 const Edit = () => {
   const { id } = useParams();
   const navigate = useNavigate();
-  
-  console.log('ID from URL:', id);
-  
+
   const [resto, setRestos] = useState({
-    title: "",
+    name: "",
     type: "",
-    img: "https://cms.dmpcdn.com/food/2024/01/19/60acdbd0-b6ae-11ee-be74-a3cdac836376_webp_original.webp"
+    imageUrl:
+      "https://cms.dmpcdn.com/food/2024/01/19/60acdbd0-b6ae-11ee-be74-a3cdac836376_webp_original.webp",
   });
 
   useEffect(() => {
-    if (id) {
-      fetch("http://localhost:3000/restaurants/" + id)
-        .then((res) => {
-          if (!res.ok) {
-            throw new Error("Network response was not ok");
-          }
-          return res.json();
-        })
-        .then((response) => {
-          console.log('Fetch response:', response);
-          setRestos(response);
-        })
-        .catch((err) => {
-          console.error('Fetch error:', err.message);
+    const fetchRestaurant = async () => {
+      try {
+        const response = await RestaurantService.getrestaurantById(id);
+        if (response.status === 200) {
+          setRestos(response.data);
+        }
+      } catch (error) {
+        Swal.fire({
+          title: "Error",
+          text: "Failed to fetch restaurant data.",
+          icon: "error",
         });
-    }
+      }
+    };
+
+    fetchRestaurant();
   }, [id]);
 
   const handleChange = (e) => {
-    const { name, value } = e.target;
-    setRestos({ ...resto, [name]: value });
+    setRestos({ ...resto, [e.target.name]: e.target.value });
   };
 
+  // Handle form submission
   const handleSubmit = async (e) => {
-    e.preventDefault();
+    e.preventDefault(); // Prevents default form submission
+    const updatedRestaurant = { ...resto };
+
     try {
-      const response = await fetch("http://localhost:3000/restaurants/" + id, {
-        method: "PUT",
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(resto),
-      });
-      if (response.ok) {
+      const response = await RestaurantService.editRestaurant(
+        id,
+        updatedRestaurant
+      );
+      if (response.status === 200) {
         Swal.fire({
-          icon: 'success',
-          title: 'สำเร็จ!',
-          text: 'แก้ไขข้อมูลร้านอาหารเรียบร้อย!'
-        }).then(() => {
-          navigate('/'); // นำทางกลับไปยังหน้าแรก
+          title: "Restaurant Update",
+          text: response.data.message,
+          icon: "success",
         });
-      } else {
-        throw new Error('Failed to update restaurant');
+        navigate("/");
       }
     } catch (error) {
       Swal.fire({
-        icon: 'error',
-        title: 'Oops...',
-        text: 'Something went wrong!',
-        footer: error.message
+        title: "Restaurant Update",
+        text: error?.response?.data?.message || error.message,
+        icon: "error",
       });
     }
   };
 
+  
   return (
     <div className="container flex flex-col items-center p-4 mx-auto space-y-6">
       <div className="card bg-base-100 w-full max-w-sm shrink-0 shadow-2xl">
@@ -82,9 +78,9 @@ const Edit = () => {
               placeholder="ชื่ออาหาร"
               className="input input-bordered"
               required
-              name="title"
-              id="title"
-              value={resto.title}
+              name="name"
+              id="name"
+              value={resto.name}
               onChange={handleChange}
             />
           </div>
@@ -112,17 +108,14 @@ const Edit = () => {
               placeholder="รูปอาหาร"
               className="input input-bordered"
               required
-              name="img"
-              id="img"
-              value={resto.img}
+              name="imageUrl"
+              id="imageUrl"
+              value={resto.imageUrl}
               onChange={handleChange}
             />
           </div>
           <div className="form-control mt-6">
-            <button
-              className="btn btn-primary"
-              type="submit"
-            >
+            <button className="btn btn-primary" type="submit">
               UPDATE
             </button>
           </div>
