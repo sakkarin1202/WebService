@@ -8,7 +8,7 @@ const UserProfile = () => {
 
   const handleLogout = () => {
     logout();
-    //navigate("/"); 
+    //navigate("/");
   };
 
   return (
@@ -34,6 +34,7 @@ const UserProfile = () => {
       >
         <li>
           <a onClick={handleLogout}>Logout</a>
+          <a onClick={UserProfile}>Profile</a>
         </li>
       </ul>
     </div>

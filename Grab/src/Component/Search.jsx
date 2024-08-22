@@ -10,10 +10,11 @@ const Search = ({ restaurants, setFilteredRestaurants }) => {
     }
 
     const result = restaurants.filter((restaurant) => {
-      return (
-        restaurant.title.toLowerCase().includes(keyword.toLowerCase()) ||
-        restaurant.type.toLowerCase().includes(keyword.toLowerCase())
-      );
+      const name = restaurant.name ? restaurant.name.toLowerCase() : "";
+      const type = restaurant.type ? restaurant.type.toLowerCase() : "";
+      const searchKeyword = keyword.toLowerCase();
+
+      return name.includes(searchKeyword) || type.includes(searchKeyword);
     });
 
     setFilteredRestaurants(result);
@@ -31,6 +32,7 @@ const Search = ({ restaurants, setFilteredRestaurants }) => {
         placeholder="Search"
         onChange={handleChange}
         value={keyword}
+        aria-label="Search for restaurants"
       />
       <svg
         xmlns="http://www.w3.org/2000/svg"

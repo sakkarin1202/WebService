@@ -18,13 +18,13 @@ const Card = ({ id, imageUrl, name, type }) => {
     }).then(async (result) => {
       if (result.isConfirmed) {
         try {
-          await RestuarantService.deleteRestaurant(id); // Use RestaurantService instead of fetch
+          await RestuarantService.deleteRestaurant(id);
           Swal.fire(
             "Deleted!",
             `Restaurant id=${id} has been deleted.`,
             "success"
           ).then(() => {
-            window.location.reload(); // Refresh the page
+            window.location.reload();
           });
         } catch (err) {
           Swal.fire(
